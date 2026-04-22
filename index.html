@@ -1,19 +1,28 @@
-<!-- public/index.html -->
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEO Audit Tool</title>
+    <title>Technical SEO Audit Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>SEO Audit Tool</h1>
-        <input type="text" id="url" placeholder="Enter URL to analyze">
-        <button id="analyzeBtn">Analyze</button>
-        <div id="results"></div>
+    <div class="page-shell">
+        <div class="container">
+            <h1>Technical SEO Audit Dashboard</h1>
+            <p class="subtitle">
+                Analyze website performance, SEO health, accessibility, and best-practice indicators.
+            </p>
+
+            <div class="input-group">
+                <input type="text" id="url" placeholder="Enter a website URL, for example example.com">
+                <button id="analyzeBtn">Run Audit</button>
+            </div>
+
+            <div id="results"></div>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

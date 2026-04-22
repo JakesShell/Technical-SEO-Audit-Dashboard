@@ -1,35 +1,104 @@
-// server/server.js
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
+﻿const express = require("express");
+const axios = require("axios");
+const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const API_KEY = process.env.PAGESPEED_API_KEY || "";
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('../public'));
+app.use(express.static(__dirname));
 
-app.post('/api/audit', async (req, res) => {
-    const { url } = req.body;
+function normalizeUrl(input) {
+  if (!input || typeof input !== "string") return "";
+  const trimmed = input.trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
 
-    try {
-        // Replace with actual API calls to Google PageSpeed Insights and Moz
-        const pageSpeedResponse = await axios.get(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&key=YOUR_API_KEY`);
-        
-        // Mock response for demonstration
-        const auditResults = {
-            speed: pageSpeedResponse.data.lighthouseResult.categories.performance.score * 100,
-            mobileFriendly: pageSpeedResponse.data.lighthouseResult.categories.seo.score * 100,
-            // Add more metrics as needed
-        };
+function buildDemoResults(targetUrl) {
+  return {
+    mode: "demo",
+    analyzedUrl: targetUrl,
+    performance: 84,
+    seo: 91,
+    accessibility: 88,
+    bestPractices: 86,
+    recommendations: [
+      "Compress and properly size large images.",
+      "Add descriptive meta titles and meta descriptions.",
+      "Improve internal linking to important pages.",
+      "Minify CSS and JavaScript assets.",
+      "Review mobile spacing and tap target sizing."
+    ]
+  };
+}
 
-        res.json(auditResults);
-    } catch (error) {
-        res.status(500).json({ error: 'An error occurred while fetching data.' });
-    }
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+app.post("/api/audit", async (req, res) => {
+  const rawUrl = req.body?.url;
+  const targetUrl = normalizeUrl(rawUrl);
+
+  if (!targetUrl) {
+    return res.status(400).json({ error: "Please enter a valid URL." });
+  }
+
+  try {
+    new URL(targetUrl);
+  } catch {
+    return res.status(400).json({ error: "The URL format is invalid." });
+  }
+
+  if (!API_KEY) {
+    return res.json({
+      ...buildDemoResults(targetUrl),
+      message: "Running in demo mode because no Google PageSpeed API key is configured."
+    });
+  }
+
+  try {
+    const apiUrl = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
+    const response = await axios.get(apiUrl, {
+      params: {
+        url: targetUrl,
+        key: API_KEY,
+        strategy: "mobile",
+        category: ["performance", "seo", "accessibility", "best-practices"]
+      }
+    });
+
+    const categories = response.data?.lighthouseResult?.categories || {};
+
+    const results = {
+      mode: "live",
+      analyzedUrl: targetUrl,
+      performance: Math.round((categories.performance?.score || 0) * 100),
+      seo: Math.round((categories.seo?.score || 0) * 100),
+      accessibility: Math.round((categories.accessibility?.score || 0) * 100),
+      bestPractices: Math.round((categories["best-practices"]?.score || 0) * 100),
+      recommendations: [
+        "Review Core Web Vitals and improve slow-loading assets.",
+        "Strengthen on-page metadata and heading structure.",
+        "Audit mobile usability and page responsiveness.",
+        "Reduce render-blocking resources where possible.",
+        "Improve caching and asset delivery performance."
+      ]
+    };
+
+    return res.json(results);
+  } catch (error) {
+    return res.status(500).json({
+      error: "Unable to fetch live audit data. Check the API key or try demo mode."
+    });
+  }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`SEO Audit Dashboard is running on http://localhost:${PORT}`);
 });

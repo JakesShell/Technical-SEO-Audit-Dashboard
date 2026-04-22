@@ -1,0 +1,24 @@
+﻿{
+  "name": "technical-seo-audit-dashboard",
+  "version": "1.0.0",
+  "description": "Node.js SEO audit dashboard for analyzing website performance and technical SEO signals.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "seo",
+    "audit",
+    "node",
+    "express",
+    "pagespeed",
+    "technical-seo"
+  ],
+  "author": "Jaco van Rooyen",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

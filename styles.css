@@ -1,41 +1,158 @@
-/* public/styles.css */
-body {
+﻿body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
+    background: #f3f6fb;
+    color: #14213d;
+}
+
+.page-shell {
+    padding: 40px 20px;
 }
 
 .container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 32px;
 }
 
 h1 {
-    text-align: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #4b5563;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.input-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    flex: 1;
+    min-width: 260px;
+    padding: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 14px;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    background: #28a745;
+    padding: 14px 22px;
+    background: #2563eb;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+button:hover {
+    background: #1d4ed8;
 }
 
 #results {
-    margin-top: 20px;
+    margin-top: 28px;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.badge.live {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge.demo {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.info-message,
+.loading-message {
+    padding: 12px 14px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-radius: 10px;
+}
+
+.error-message {
+    padding: 12px 14px;
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 10px;
+}
+
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.score-card {
+    border-radius: 14px;
+    padding: 20px;
+    color: white;
+}
+
+.score-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.score-card p {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.score-card.good {
+    background: #16a34a;
+}
+
+.score-card.medium {
+    background: #d97706;
+}
+
+.score-card.poor {
+    background: #dc2626;
+}
+
+.recommendations {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.recommendations h3 {
+    margin-top: 0;
+}
+
+.recommendations ul {
+    margin-bottom: 0;
+    padding-left: 20px;
+    line-height: 1.7;
 }
