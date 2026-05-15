@@ -2,27 +2,369 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>SitePulse | Cloud SEO Performance & Risk Audit Console</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical SEO Audit Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('styles') }}">
 </head>
 <body>
-    <div class="page-shell">
-        <div class="container">
-            <h1>Technical SEO Audit Dashboard</h1>
-            <p class="subtitle">
-                Analyze website performance, SEO health, accessibility, and best-practice indicators.
-            </p>
+    <div class="space-grid"></div>
+    <div class="glow-orb glow-left"></div>
+    <div class="glow-orb glow-right"></div>
 
-            <div class="input-group">
-                <input type="text" id="url" placeholder="Enter a website URL, for example example.com">
-                <button id="analyzeBtn">Run Audit</button>
-            </div>
+    <main class="app-shell">
+        <section class="top-layout">
+            <article class="scanner-command">
+                <header class="app-header">
+                    <div class="brand">
+                        <div class="brand-gem">SP</div>
+                        <div>
+                            <p class="eyebrow">SitePulse Diagnostic Lab</p>
+                            <h1>Cloud SEO Performance & Risk Audit Console</h1>
+                        </div>
+                    </div>
 
-            <div id="results"></div>
-        </div>
-    </div>
+                    <div class="mode-pill">☾ Dark Mode</div>
+                </header>
 
-    <script src="script.js"></script>
+                <section class="scanner-card">
+                    <div class="scanner-title-row">
+                        <div>
+                            <p class="eyebrow">Website X-Ray Scanner</p>
+                            <h2>
+                                {% if report %}
+                                    {{ report.display_domain or report.domain }}
+                                {% else %}
+                                    access.wgu.edu
+                                {% endif %}
+                            </h2>
+
+                            <div class="url-chip">
+                                <span>↗</span>
+                                {% if report %}
+                                    {{ report.short_display_url or report.display_url or report.normalized_url }}
+                                {% else %}
+                                    https://access.wgu.edu/pingfed/as/authorization.oauth2?response_type=code...
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="risk-chip">
+                            <span></span>
+                            {% if report %}
+                                {{ report.risk_level }} Risk
+                            {% else %}
+                                Moderate Risk
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="scanner-stage">
+                        <div class="starmap"></div>
+                        <div class="glass-browser"></div>
+
+                        <div class="edge-label label-broken">Broken Path</div>
+                        <div class="edge-label label-heavy">Heavy Asset</div>
+                        <div class="edge-label label-schema">Schema Gap</div>
+                        <div class="edge-label label-trust">Trust Header</div>
+
+                        <div class="node node-index">Index</div>
+                        <div class="node node-meta">Meta</div>
+                        <div class="node node-schema">Schema</div>
+                        <div class="node node-speed">Speed</div>
+
+                        <div class="beam beam-index"></div>
+                        <div class="beam beam-meta"></div>
+                        <div class="beam beam-schema"></div>
+                        <div class="beam beam-speed"></div>
+
+                        <div class="diamond-shadow"></div>
+                        <div class="main-diamond">
+                            <i class="facet f1"></i>
+                            <i class="facet f2"></i>
+                            <i class="facet f3"></i>
+                            <i class="facet f4"></i>
+                            <i class="facet f5"></i>
+                            <strong>
+                                {% if report %}
+                                    {{ report.site_health }}%
+                                {% else %}
+                                    74%
+                                {% endif %}
+                            </strong>
+                            <span>Health</span>
+                        </div>
+                    </div>
+
+                    <div class="verdict-row">
+                        <article class="verdict-panel">
+                            <p class="eyebrow">Executive Verdict</p>
+                            <h3>
+                                {% if report %}
+                                    {{ report.executive_verdict }}
+                                {% else %}
+                                    Promising foundation with clear technical friction
+                                {% endif %}
+                            </h3>
+                            <p>
+                                {% if report %}
+                                    {{ report.executive_message }}
+                                {% else %}
+                                    The site has enough technical strength to grow, but current blockers will limit crawling efficiency, page experience, or visibility if left unresolved.
+                                {% endif %}
+                            </p>
+                        </article>
+
+                        <article class="confidence-panel">
+                            <div>
+                                <span>Launch Confidence</span>
+                                <strong>
+                                    {% if report %}
+                                        {{ report.launch_confidence }}%
+                                    {% else %}
+                                        73%
+                                    {% endif %}
+                                </strong>
+                            </div>
+                            <div class="trend-bars">
+                                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </article>
+
+            <aside class="audit-command">
+                <p class="eyebrow">Audit Command Panel</p>
+                <h2>Run diagnostic scan</h2>
+                <p class="muted">Enter a domain and choose the business context for the simulated audit.</p>
+
+                <form method="POST" class="audit-form">
+                    <label>
+                        Website URL
+                        <input type="text" name="website_url" placeholder="access.wgu.edu" value="{{ website_url }}" required>
+                    </label>
+
+                    <label>
+                        Industry
+                        <select name="industry">
+                            <option {% if industry == 'SaaS' %}selected{% endif %}>SaaS</option>
+                            <option {% if industry == 'Healthcare' %}selected{% endif %}>Healthcare</option>
+                            <option {% if industry == 'Ecommerce' %}selected{% endif %}>Ecommerce</option>
+                            <option {% if industry == 'Education' %}selected{% endif %}>Education</option>
+                            <option {% if industry == 'Agency' %}selected{% endif %}>Agency</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Audit Mode
+                        <select name="audit_mode">
+                            <option {% if audit_mode == 'Launch Readiness' %}selected{% endif %}>Launch Readiness</option>
+                            <option {% if audit_mode == 'Executive Review' %}selected{% endif %}>Executive Review</option>
+                            <option {% if audit_mode == 'Weekly Monitoring' %}selected{% endif %}>Weekly Monitoring</option>
+                            <option {% if audit_mode == 'Migration Risk Check' %}selected{% endif %}>Migration Risk Check</option>
+                        </select>
+                    </label>
+
+                    <button type="submit" class="run-button">
+                        <span>✦</span>
+                        Run Site Audit
+                    </button>
+                </form>
+
+                {% if error %}
+                    <div class="alert-card">{{ error }}</div>
+                {% endif %}
+
+                {% if report and report.is_local_demo %}
+                    <div class="alert-card">
+                        <strong>Local demo detected</strong>
+                        <p>Use a realistic sample domain for final portfolio screenshots.</p>
+                    </div>
+                {% endif %}
+
+                <div class="scenario-card">
+                    <p class="eyebrow">Operating Scenario</p>
+                    <p>Built for the moment before a launch, migration, SEO sprint, or executive review when teams need one clean answer: “Is the site ready?”</p>
+                    <div class="shield">✓</div>
+                </div>
+            </aside>
+        </section>
+
+        {% if report %}
+            <section class="metric-row">
+                <article class="metric-card">
+                    <div class="mini-ring" style="--score: {{ report.site_health }};">
+                        <strong>{{ report.site_health }}%</strong>
+                    </div>
+                    <div>
+                        <h4>Site Health</h4>
+                        <div class="mini-line"><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                </article>
+
+                <article class="metric-card">
+                    <div class="mini-ring" style="--score: {{ report.index_ready }};">
+                        <strong>{{ report.index_ready }}%</strong>
+                    </div>
+                    <div>
+                        <h4>Index Readiness</h4>
+                        <div class="mini-line"><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                </article>
+
+                <article class="metric-card">
+                    <div class="mini-ring" style="--score: {{ report.performance }};">
+                        <strong>{{ report.performance }}%</strong>
+                    </div>
+                    <div>
+                        <h4>Performance</h4>
+                        <div class="mini-line"><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                </article>
+
+                <article class="metric-card">
+                    <div class="mini-ring" style="--score: {{ report.ai_visibility }};">
+                        <strong>{{ report.ai_visibility }}%</strong>
+                    </div>
+                    <div>
+                        <h4>AI Visibility</h4>
+                        <div class="mini-line"><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                </article>
+
+                <article class="metric-card number-card">
+                    <strong>{{ report.pages_crawled }}</strong>
+                    <span>Pages Crawled</span>
+                    <div class="blue-bars"><i></i><i></i><i></i><i></i><i></i></div>
+                </article>
+
+                <article class="metric-card number-card danger">
+                    <strong>{{ report.blocking_issues }}</strong>
+                    <span>Open Blockers</span>
+                    <div class="red-bars"><i></i><i></i><i></i><i></i><i></i></div>
+                </article>
+            </section>
+
+            <section class="decision-grid">
+                <article class="launch-decision">
+                    <p class="eyebrow">Launch Gate</p>
+                    <h3>
+                        {% if report.launch_confidence >= 80 %}
+                            Gate open with targeted fixes.
+                        {% elif report.launch_confidence >= 65 %}
+                            Gate partially open. Repair sprint recommended.
+                        {% else %}
+                            Gate restricted. Stabilize before launch.
+                        {% endif %}
+                    </h3>
+                    <p>SitePulse translates technical SEO signals into an executive decision: launch, repair, monitor, or block until the foundation is safer.</p>
+                    <a href="#repairBay">View Repair Roadmap →</a>
+                </article>
+
+                <article class="gate-stage">
+                    <div class="gate-door left"></div>
+                    <div class="gate-door right"></div>
+                    <div class="gate-floor"></div>
+
+                    <div class="gate-diamond">
+                        <i class="facet f1"></i>
+                        <i class="facet f2"></i>
+                        <i class="facet f3"></i>
+                        <i class="facet f4"></i>
+                        <strong>{{ report.launch_confidence }}%</strong>
+                        <span>Confidence</span>
+                    </div>
+                </article>
+
+                <article class="damage-panel">
+                    <p class="eyebrow">Technical Damage Map</p>
+                    <div class="damage-map">
+                        <span class="damage red" style="--x: 18%; --y: 38%;">Crawl</span>
+                        <span class="damage amber" style="--x: 70%; --y: 24%;">Speed</span>
+                        <span class="damage green" style="--x: 48%; --y: 54%;">AI</span>
+                        <span class="damage red" style="--x: 34%; --y: 74%;">Trust</span>
+                        <span class="damage amber" style="--x: 75%; --y: 68%;">Schema</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="satisfaction-section">
+                <div class="satisfaction-header">
+                    <div>
+                        <p class="eyebrow">Customer Satisfaction Lab</p>
+                        <h3>Sample scenario reviews from teams using SitePulse workflows</h3>
+                    </div>
+
+                    <div class="rating-box">
+                        <strong>{{ social_proof.avg_rating }}/5</strong>
+                        <span>★★★★★</span>
+                        <small>{{ social_proof.review_count }} scenario reviews</small>
+                    </div>
+                </div>
+
+                <div class="review-stats">
+                    <article><strong>{{ social_proof.recommendation_rate }}%</strong><span>would recommend</span></article>
+                    <article><strong>{{ social_proof.stat_1 }}</strong><span>audit handoffs</span></article>
+                    <article><strong>{{ social_proof.stat_2 }}</strong><span>decisions</span></article>
+                    <article><strong>{{ social_proof.stat_3 }}</strong><span>sentiment</span></article>
+                </div>
+
+                <div class="review-grid">
+                    {% for item in social_proof.testimonials %}
+                        <article class="review-card">
+                            <img src="{{ url_for('static', filename=item.avatar) }}" alt="{{ item.name }} portrait">
+                            <div>
+                                <h4>{{ item.name }}</h4>
+                                <p>{{ item.role }}</p>
+                                <small>{{ item.company }}</small>
+                                <span class="stars">{% for _ in range(item.rating) %}★{% endfor %}{% if item.rating < 5 %}☆{% endif %}</span>
+                                <blockquote>“{{ item.quote }}”</blockquote>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="repair-bay" id="repairBay">
+                <div class="repair-header">
+                    <div>
+                        <p class="eyebrow">Repair Bay</p>
+                        <h3>Priority issues by severity and owner</h3>
+                    </div>
+
+                    <div class="severity-tabs">
+                        <span class="critical">Critical {{ report.critical_count }}</span>
+                        <span class="warning">Warnings {{ report.warning_count }}</span>
+                        <span class="opportunity">Opportunities {{ report.opportunity_count }}</span>
+                    </div>
+                </div>
+
+                <div class="repair-grid">
+                    {% for issue in report.top_issues[:3] %}
+                        <article class="repair-card {{ issue.severity_class }}">
+                            <div class="repair-top">
+                                <span>{{ issue.severity }}</span>
+                                <strong>{{ issue.priority_score }}</strong>
+                            </div>
+
+                            <h4>{{ issue.title }}</h4>
+
+                            <div class="repair-meta">
+                                <span><b>Owner</b>{{ issue.owner }}</span>
+                                <span><b>Signal</b>{{ issue.signal }}</span>
+                                <span><b>ETA</b>{{ issue.eta }}</span>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            </section>
+        {% else %}
+            <section class="empty-state">
+                <p class="eyebrow">Preflight View</p>
+                <h3>Run a domain through SitePulse to activate the diagnostic console.</h3>
+                <p>The full audit view includes a site x-ray scanner, launch gate, damage map, repair bay, customer scenario reviews, and cloud-ready technical SEO recommendations.</p>
+            </section>
+        {% endif %}
+    </main>
 </body>
 </html>

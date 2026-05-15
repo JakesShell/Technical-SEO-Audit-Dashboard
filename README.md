@@ -1,75 +1,111 @@
-﻿# Technical SEO Audit Dashboard
+﻿# SitePulse Cloud SEO Performance And Risk Audit Console
 
-## Overview
+SitePulse is a polished Cloud + AI-positioned technical SEO audit platform that turns a website URL into an executive-ready site health review.
 
-Technical SEO Audit Dashboard is a Node.js and Express web application that analyzes a target website and returns a simplified audit view focused on technical SEO and related quality signals.
+It is designed to help product teams, SEO specialists, marketers, engineering teams, and decision-makers understand how technical issues affect rankings, performance, trust, launch readiness, and AI visibility.
 
-The dashboard is designed as a portfolio-ready business tool for digital marketers, SEO specialists, web consultants, and agencies who need a fast way to review a site's health from a performance and optimization perspective.
+## What This Project Does
 
-This project supports two operating modes:
+SitePulse simulates a technical audit workflow and presents the findings in a premium SaaS-style command center.
 
-- **Live mode**, when a valid Google PageSpeed API key is configured
-- **Demo mode**, when no API key is present
+The app analyzes a URL and generates:
 
-That means the application remains fully usable as a recruiter demo even without external API setup.
+- Site Health score
+- Index Readiness score
+- Performance score
+- AI Visibility score
+- Priority issue cards
+- Benchmark progress bars
+- Thematic audit areas
+- A phased fix roadmap
+- Launch confidence summary
+- Customer satisfaction storytelling section
 
-## Real-World Business Use Case
+## Why This Matters
 
-This project maps to a realistic agency or in-house marketing workflow.
+Technical SEO is not just about rankings. It affects:
 
-A business may need to answer questions such as:
+- Crawling and indexing
+- Site performance and page experience
+- Click-through potential from search results
+- Structured data and AI visibility
+- Launch confidence for campaigns and product releases
+- Trust and technical hygiene
 
-- Is this website fast enough for a good user experience?
-- Are there technical signals that may hurt SEO performance?
-- Is the site reasonably accessible?
-- Are best practices being followed?
-- What actions should the team take first?
+This project is positioned as a business-friendly technical audit console rather than a raw SEO tool.
 
-This type of tool could be used by:
+## Frontend Experience
 
-- freelance SEO consultants
-- digital marketing agencies
-- website performance auditors
-- in-house growth teams
-- web development teams reviewing client sites
+The visual experience includes:
 
-## Key Features
+- Animated site scan hero visual
+- Layered website scan illustration
+- Light and dark mode
+- Glassmorphism panels
+- Ripple button interactions
+- Benchmark meters
+- Testimonial portrait cards
+- Satisfaction rating summary
 
-- URL input for target website analysis
-- Server-side audit endpoint using Node.js and Express
-- Demo mode fallback when no API key is configured
-- Support for live API-based audit mode
-- Dashboard cards for:
-  - Performance
-  - SEO
-  - Accessibility
-  - Best Practices
-- Recommended action list for follow-up improvements
-- Responsive browser-based interface
+## Sample Customer Satisfaction Content
 
-## Tech Stack
+The project includes generated testimonial portraits and comments as sample customer scenarios.
 
-- Node.js
-- Express
-- JavaScript
-- HTML
-- CSS
-- Axios
-- CORS
+These are clearly demo storytelling assets and not real customer claims.
 
-## Project Structure
+## Cloud + AI Positioning
 
-```text
-Technical-SEO-Audit-Dashboard/
-|-- index.html
-|-- styles.css
-|-- script.js
-|-- server.js
-|-- package.json
-|-- package-lock.json
-|-- .gitignore
-|-- .env.example
-|-- README.md
-|-- docs/
-|   |-- images/
-|       |-- seo-dashboard-demo.png
+Future production versions could connect to:
+
+- Lighthouse or CI audit pipelines
+- Search Console or crawl data exports
+- Cloud-hosted monitoring snapshots
+- Weekly reporting workflows
+- AI-generated technical recommendations
+- Executive summaries delivered through cloud dashboards
+- Regression alerts for performance or crawl health
+
+## Security And Product Direction
+
+SitePulse also reflects your Cloud + AI portfolio direction by showing:
+
+- Trust and technical hygiene
+- Risk-oriented severity grouping
+- Executive audit communication
+- Cross-team decision support
+- Repeatable monitoring potential
+
+## Run Locally
+
+PowerShell:
+
+    cd C:\github-audit\Technical-SEO-Audit-Dashboard
+    python -m venv .venv
+    .\.venv\Scripts\python.exe -m pip install --upgrade pip
+    .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+    .\.venv\Scripts\python.exe generate_sitepulse_assets.py
+    .\.venv\Scripts\python.exe app.py
+
+Then open:
+
+    http://127.0.0.1:5000
+
+## Suggested Upgrade Rename
+
+Technical-SEO-Audit-Dashboard
+
+becomes
+
+SitePulse-Cloud-SEO-Performance-And-Risk-Audit-Console
+
+## Planned Enhancements
+
+- CSV or PDF audit export
+- Historical audit trend tracking
+- Login and workspace support
+- Team comments on issue cards
+- Site comparison mode
+- Lighthouse CI integration
+- Search Console integration
+- Cloud deployment pipeline
+- Scheduled monitoring jobs
